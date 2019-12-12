@@ -6,7 +6,7 @@
 using namespace std;
 
 int n, m, link[NMAX], used[NMAX], a[NMAX][NMAX];
-//匈牙利算法
+
 int find(int x)
 {
 	for (int i = 1; i <= m; i++)
