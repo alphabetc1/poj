@@ -1,3 +1,4 @@
+//åŒˆç‰™åˆ©ç®—æ³•æ±‚æœ€å¤§åŒ¹é…
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -5,7 +6,7 @@
 using namespace std;
 
 int n, m, link[NMAX], used[NMAX], a[NMAX][NMAX];
-//ĞÙÑÀÀûËã·¨
+
 int find(int x)
 {
 	for (int i = 1; i <= m; i++)
@@ -29,7 +30,7 @@ int main()
 	while (cin >> n >> m)
 	{
 		sum = 0;
-		memset(a, 0, sizeof(a));			//¼ÇµÃ³õÊ¼»¯Êı¾İ
+		memset(a, 0, sizeof(a));			//è®°å¾—åˆå§‹åŒ–æ•°æ®
 		memset(link, 0, sizeof(link));
 		for (i = 1; i <= n; i++)
 		{
@@ -37,12 +38,12 @@ int main()
 			for (j = 0; j < k; j++)
 			{
 				cin >> r;
-				a[i][r] = 1;				//Ğ´a[i][r] = a[r][i] = 1¾Í´íÁË
+				a[i][r] = 1;				//å†™a[i][r] = a[r][i] = 1å°±é”™äº†
 			}
 		}
 		for (i = 1; i <= n; i++)
 		{
-			memset(used, 0, sizeof(used));	//Ã¿Ò»ÂÖÇåused£¬²»ÒªÔÚ»ØËİÄÚ²¿Çåused
+			memset(used, 0, sizeof(used));	//æ¯ä¸€è½®æ¸…usedï¼Œä¸è¦åœ¨å›æº¯å†…éƒ¨æ¸…used
 			sum += find(i);
 		}
 		cout << sum << endl;
