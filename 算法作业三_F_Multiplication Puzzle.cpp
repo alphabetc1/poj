@@ -1,27 +1,30 @@
-#include <stdio.h>
+#include <iostream>
+#include <string>
 #include <string.h>
-#define MIN(a,b) (a<b)?(a):(b)
-#define INF 0x3f3f3f3f
 #define NMAX 110
+#define MIN(a,b) (a<b)?(a):(b)
+using namespace std;
 
 int a[NMAX], dp[NMAX][NMAX];
 
-int getDp(int x, int y)
-{
-	if (dp[x][y] != INF)	return dp[x][y];
-	if (y == x + 1)	dp[x][y] = 0;
-	for (int k = x + 1; k < y; k++)
-		dp[x][y] = MIN(dp[x][y], a[x] * a[k] * a[y] + getDp(x, k) + getDp(k, y));
-	return dp[x][y];
-}
-
-int main()
-{
-	int n, i, j, k;
-	scanf("%d", &n);
-	memset(dp, 0x3f, sizeof(dp));
-	for (i = 0; i < n; i++)
-		scanf("%d", &a[i]);
-	printf("%d\n", getDp(0, n - 1));
+int main() {
+	int n, i, j, k, t;
+	cin >> n;
+	memset(dp, 0x3d, sizeof(dp));
+	for (i = 1; i <= n; i++) {	
+			cin >> a[i];
+	}
+	for (t = 1; t < n; t++) {
+		for (i = 1, j = i+t; j <= n; i++, j++) {
+			if (j == i + 1) {
+				dp[i][j] = 0;
+			}
+			for (k = i + 1; k < j; k++) {
+				dp[i][j] = MIN(dp[i][j], a[i] * a[k] * a[j] + dp[i][k] + dp[k][j]);
+			}
+		}
+	}
+	cout << dp[1][n] << endl;
+	system("pause");
 	return 0;
 }
