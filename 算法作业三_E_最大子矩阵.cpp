@@ -6,11 +6,11 @@
 #define MAX(a,b) (a>b)?(a):(b)
 using namespace std;
 
-int n, ans, a[NMAX][NMAX], aLink[NMAX];
+int n, ans, aLink[NMAX], a[NMAX][NMAX];
 
 void count() {
-	int i, now = 0;
-	for (i = 1; i <= n; i++) {
+	int now = 0;
+	for (int i = 1; i <= n; i++) {
 		now += aLink[i];
 		now = MAX(now, 0);
 		ans = MAX(now, ans);
@@ -30,7 +30,7 @@ int main() {
 		memset(aLink, 0, sizeof(aLink));
 		for (j = i; j <= n; j++) {
 			for (k = 1; k <= n; k++) {
-				aLink[k] += a[j][k];		
+				aLink[k] += a[j][k];
 			}
 			count();
 		}
