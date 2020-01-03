@@ -1,68 +1,47 @@
+//5维dp，如果用状态压缩代码会优雅很多orz
 #include <iostream>
 #include <string>
 #include <string.h>
-#define NMAX 7
+#define NMAX 1010
+#define gap 7
 #define MIN(a,b) (a<b)?(a):(b)
 using namespace std;
 
 struct node {
-	int cost, num, c_get[NMAX], k_get[NMAX], tag[NMAX];
-}edge[110];
+	int cost, num[gap];
+}item[NMAX];
 
-int vis[1010], v[NMAX], c[NMAX], k[NMAX], value[NMAX][NMAX][NMAX][NMAX][NMAX];
+int need[gap], tag[NMAX], dp[gap][gap][gap][gap][gap];
 
-int main()
-{
-	int i, j, n, m, cmp = 1;
-	memset(value, 0x3f, sizeof(value));
-	value[0][0][0][0][0] = 0;
+int main() {
+	int i, j, s, n, m, num, v[gap];
 	cin >> n;
-	for (i = 0; i < n; i++)
-	{
-		cin >> edge[i].c_get[0] >> k[i+1] >> edge[i].cost;
-		edge[i].k_get[0] = edge[i].num = 1;
-		if (!vis[edge[i].c_get[0]])
-		{
-			vis[edge[i].c_get[0]] = edge[i].tag[0] = cmp;
-			cmp++;
-		}
-		else
-			edge[i].tag[0] = vis[edge[i].c_get[0]];
+	for (i = 0; i < n; i++) {
+		cin >> num;
+		tag[num] = i;
+		cin >> need[i] >> item[i].cost;	
+		item[i].num[i] = 1;
 	}
-	cin >> m;
-	for (i = n; i < m + n; i++)
-	{
-		cin >> edge[i].num;
-		for (j = 0; j < edge[i].num; j++)
-		{
-			cin >> edge[i].c_get[j] >> edge[i].k_get[j];
-			if (!vis[edge[i].c_get[j]])
-			{
-				vis[edge[i].c_get[j]] = edge[i].tag[j] = cmp;
-				cmp++;
-			}
-			else
-				edge[i].tag[j] = vis[edge[i].c_get[j]];
+	cin >> s;
+	for (i = n; i < n + s; i++) {
+		cin >> m;
+		for (j = 0; j < m; j++) {
+			cin >> num;
+			cin >> item[i].num[tag[num]];
 		}
-		cin >> edge[i].cost;
+		cin >> item[i].cost;
 	}
-	for (i = 0; i < n + m; i++)
-	{
-		memset(c, 0, sizeof(c));
-		for (j = 0; j < edge[i].num; j++)
-		{
-			c[edge[i].tag[j]] = edge[i].k_get[j];
-		}
-		for (v[1] = c[1]; v[1] <= k[1]; v[1]++)
-			for (v[2] = c[2]; v[2] <= k[2]; v[2]++)
-				for (v[3] = c[3]; v[3] <= k[3]; v[3]++)
-					for (v[4] = c[4]; v[4] <= k[4]; v[4]++)
-						for (v[5] = c[5]; v[5] <= k[5]; v[5]++)
-						{
-							value[v[1]][v[2]][v[3]][v[4]][v[5]] = MIN(value[v[1]][v[2]][v[3]][v[4]][v[5]], value[v[1] - c[1]][v[2] - c[2]][v[3] - c[3]][v[4] - c[4]][v[5] - c[5]] + edge[i].cost);
+	memset(dp, 0x3f, sizeof(dp));
+	dp[0][0][0][0][0] = 0;
+	for (i = 0; i < n + s; i++)
+		for (v[0] = item[i].num[0]; v[0] <= need[0]; v[0]++)
+			for (v[1] = item[i].num[1]; v[1] <= need[1]; v[1]++)
+				for (v[2] = item[i].num[2]; v[2] <= need[2]; v[2]++)
+					for (v[3] = item[i].num[3]; v[3] <= need[3]; v[3]++)
+						for (v[4] = item[i].num[4]; v[4] <= need[4]; v[4]++) {
+							dp[v[0]][v[1]][v[2]][v[3]][v[4]] = MIN(dp[v[0]][v[1]][v[2]][v[3]][v[4]], dp[v[0] - item[i].num[0]][v[1] - item[i].num[1]][v[2] - item[i].num[2]][v[3] - item[i].num[3]][v[4] - item[i].num[4]] + item[i].cost);
 						}
-	}
-	cout << value[k[1]][k[2]][k[3]][k[4]][k[5]] << endl;
+	cout << dp[need[0]][need[1]][need[2]][need[3]][need[4]] << endl;
 	system("pause");
 	return 0;
 }
