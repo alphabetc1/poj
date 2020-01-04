@@ -1,38 +1,41 @@
-#include <stdio.h>
+//将二维问题转化为一维
+#include <iostream>
+#include <string>
 #include <string.h>
-#define MAX(a,b) (a>b)?(a):(b)
 #define NMAX 110
-int n, sum = -100010, num, a[NMAX][NMAX], aLine[NMAX], bLine[NMAX];
+#define MAX(a,b) (a>b)?(a):(b)
+using namespace std;
 
-void getNum()
-{
-	int i;
-	num = bLine[0] = aLine[0];
-	for (i = 1; i < n; i++)
-	{
-		bLine[i] = MAX(bLine[i - 1] + aLine[i], aLine[i]);
-		if (bLine[i] > num)	num = bLine[i];
+int n, ans, aLink[NMAX], a[NMAX][NMAX];
+
+void count() {
+	int now = 0;
+	for (int i = 1; i <= n; i++) {
+		now += aLink[i];
+		now = MAX(now, 0);
+		ans = MAX(now, ans);
 	}
 }
 
-int main()
-{
+int main() {
 	int i, j, k;
-	scanf("%d", &n);
-	for (i = 0; i < n; i++)
-		for (j = 0; j < n; j++)
-			scanf("%d", &a[i][j]);
-	for (i = 0; i < n; i++)
-	{
-		for (j = i; j < n; j++)
-		{
-			for (k = 0; k < n; k++)
-				aLine[k] += a[j][k];
-			getNum();
-			sum = MAX(sum, num);
+	cin >> n;
+	for (i = 1; i <= n; i++) {
+		for (j = 1; j <= n; j++) {
+			cin >> a[i][j];
 		}
-		memset(aLine, 0, sizeof(aLine));
 	}
-	printf("%d\n", sum);
+	ans = 0;
+	for (i = 1; i <= n; i++) {
+		memset(aLink, 0, sizeof(aLink));
+		for (j = i; j <= n; j++) {
+			for (k = 1; k <= n; k++) {
+				aLink[k] += a[j][k];
+			}
+			count();
+		}
+	}
+	cout << ans << endl;
+	system("pause");
 	return 0;
 }

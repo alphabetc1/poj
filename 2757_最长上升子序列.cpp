@@ -1,26 +1,31 @@
 #include <iostream>
+#include <string>
 #include <string.h>
 #define NMAX 1010
 #define MAX(a,b) (a>b)?(a):(b)
 using namespace std;
 
-int main()
-{
-	int i, j, n, a[NMAX], maxLen[NMAX], ans = 1;
+int a[NMAX], up[NMAX];
+
+int main() {
+	int i, j, k, n;
 	cin >> n;
-	for (i = 0; i < n; i++)
-	{
+	for (i = 0; i < n; i++) {
 		cin >> a[i];
-		maxLen[i] = 1;
+		up[i] = 1;
 	}
-	for (i = 1; i < n; i++)
-	{
-		for (j = 0; j < i; j++)
-		{
-			if (a[j] < a[i])	maxLen[i] = MAX(maxLen[i],maxLen[j]+1);
+	for (i = 1; i < n; i++) {
+		for (j = 0; j < i; j++) {
+			if (a[i] > a[j]) {
+				up[i] = MAX(up[i], up[j] + 1);
+			}
 		}
-		ans = MAX(ans, maxLen[i]);
+	}
+	int ans = 1;
+	for (i = 0; i < n; i++) {
+		ans = MAX(ans, up[i]);
 	}
 	cout << ans << endl;
+	system("pause");
 	return 0;
 }

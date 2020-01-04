@@ -1,3 +1,4 @@
+//åŒˆç‰™åˆ©ç®—æ³•æ±‚æœ€å¤§åŒ¹é…
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -5,16 +6,12 @@
 using namespace std;
 
 int n, m, link[NMAX], used[NMAX], a[NMAX][NMAX];
-//ĞÙÑÀÀûËã·¨
-int find(int x)
-{
-	for (int i = 1; i <= m; i++)
-	{
-		if (a[x][i] && !used[i])
-		{
+
+int find(int x) {
+	for (int i = 1; i <= m; i++) {				//åˆ«å†™æˆn
+		if (a[x][i] && !used[i]) {
 			used[i] = 1;
-			if (!link[i] || find(link[i]))
-			{
+			if (!link[i] || find(link[i])) {
 				link[i] = x;
 				return 1;
 			}
@@ -23,29 +20,24 @@ int find(int x)
 	return 0;
 }
 
-int main()
-{
-	int i, j, k, sum, r;
-	while (cin >> n >> m)
-	{
-		sum = 0;
-		memset(a, 0, sizeof(a));			//¼ÇµÃ³õÊ¼»¯Êı¾İ
+int main() {
+	int i, j, num, right;
+	while (cin >> n >> m) {						//å¤šæ¬¡æ•°æ®
 		memset(link, 0, sizeof(link));
-		for (i = 1; i <= n; i++)
-		{
-			cin >> k;
-			for (j = 0; j < k; j++)
-			{
-				cin >> r;
-				a[i][r] = 1;				//Ğ´a[i][r] = a[r][i] = 1¾Í´íÁË
+		memset(a, 0, sizeof(a));
+		for (i = 1; i <= n; i++) {
+			cin >> num;
+			for (j = 0; j < num; j++) {
+				cin >> right;
+				a[i][right] = 1;				//å•å‘çš„ï¼Œåˆ«å†™æˆa[i][right] = a[right][i] = 1;
 			}
 		}
-		for (i = 1; i <= n; i++)
-		{
-			memset(used, 0, sizeof(used));	//Ã¿Ò»ÂÖÇåused£¬²»ÒªÔÚ»ØËİÄÚ²¿Çåused
-			sum += find(i);
+		int ans = 0;
+		for (i = 1; i <= n; i++) {
+			memset(used, 0, sizeof(used));		//æ³¨æ„æ¯è½®æ¸…used
+			ans += find(i);
 		}
-		cout << sum << endl;
+		cout << ans << endl;
 	}
 	system("pause");
 	return 0;
