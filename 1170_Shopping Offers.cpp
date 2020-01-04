@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-//5Î¬dp£¬Èç¹ûÓÃ×´Ì¬Ñ¹Ëõ´úÂë»áÓÅÑÅºÜ¶àorz
-=======
 //5ç»´dpï¼Œå¦‚æžœç”¨çŠ¶æ€åŽ‹ç¼©ä»£ç ä¼šä¼˜é›…å¾ˆå¤šorz
->>>>>>> 1831913e3b9f19810afd67ddca75e63ed88f1d14
 #include <iostream>
 #include <string>
 #include <string.h>
