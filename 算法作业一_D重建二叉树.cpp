@@ -1,30 +1,43 @@
 #include <iostream>
 #include <string>
 #include <string.h>
-#define NMAX 110
+#define NMAX 1010
 using namespace std;
 
-int n = 1, a[NMAX], b[NMAX];
+struct node {
+	node *l, *r;
+	char c;
+};
+char str1[NMAX], str2[NMAX];
 
-void findPath(int starta, int enda, int startb, int endb) {
+node *getTree(int s1, int e1, int s2, int e2) {
+	if (s1 > e1 || s2 > e2)	return NULL;
 	int i;
-	if (starta > enda)
-		return;
-	cout << b[endb] << " ";
-	for (i = starta; i <= enda && a[i] != b[endb]; i++);
-	findPath(starta, i - 1, startb, startb + i - 1 - starta);
-	findPath(i + 1, enda, startb + i - starta, endb - 1);
+	for (i = s2; str2[i] != str1[s1]; i++);
+	node *subTree = (node*)malloc(sizeof(node));
+	subTree->c = str1[s1];
+	subTree->l = getTree(s1+1, s1 + i - s2, s2, i-1);
+	subTree->r = getTree(s1 + i - s2 + 1 , e1, i+1, e2);
+	return subTree;
+}
+
+void printOrder(node *p) {
+	if (p) {
+		printOrder(p->l);
+		printOrder(p->r);
+		cout << p->c;
+	}
 }
 
 int main() {
-	while (cin >> a[n]) {
-		n++;
+	while (cin >> str1 >> str2) {
+		int len1 = strlen(str1);
+		int len2 = strlen(str2);
+		node *root;
+		root = getTree(0, len1 - 1, 0, len2 - 1);
+		printOrder(root);
+		cout << endl;
 	}
-	n /= 2;
-	for (int i = 1; i <= n; i++) {
-		b[i] = a[n + i];
-	}
-	findPath(1, n, 1, n);
 	system("pause");
 	return 0;
 }
